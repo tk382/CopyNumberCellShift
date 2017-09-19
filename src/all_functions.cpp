@@ -3,6 +3,7 @@
 using namespace Rcpp;
 using namespace std;
 
+
 // [[Rcpp::depends("RcppArmadillo")]]
 // [[Rcpp::export]]
 arma::mat multiplyXtXBySparse_c(int n, arma::uvec ind, arma::mat val, arma::vec phi, arma::vec w){
@@ -79,9 +80,9 @@ arma::mat leftMultiplyByInvXAtXA_c(double n, arma::uvec ind, arma::mat val, arma
 
 // [[Rcpp::depends("RcppArmadillo")]]
 // [[Rcpp::export]]
-arma::vec ic_c(int k, arma::mat Y, arma::vec phi, arma::mat theta, double p, double n){
+arma::vec ic_c(int k, arma::mat Y, arma::vec phi, arma::mat theta, int p, int n){
   arma::mat dis = arma::zeros<arma::mat>(p, n);
-  double np = n*p;
+  int np = n*p;
   double rss = 0;
   for(int i = 0; i < p; ++i){
     for(int j = 0; j < n; ++j){
@@ -112,7 +113,7 @@ arma::vec defaultWeights_c(int p){
 
 // [[Rcpp::depends("RcppArmadillo")]]
 // [[Rcpp::export]]
-Rcpp::List doLars_c(arma::mat Y, int K, arma::vec phi, arma::vec wts, int p, int n, double epsilon = 1e-09){
+Rcpp::List doLars_c(arma::mat Y, int K, arma::vec phi, arma::rowvec Delta, arma::vec Sigma, arma::vec wts, int p, int n, double epsilon = 1e-09){
   arma::vec res_lambda = arma::zeros<arma::vec>(K);
   arma::uvec res_bkp = arma::zeros<arma::uvec>(K);
   arma::mat res_value = arma::zeros<arma::mat>(K,n);
@@ -120,7 +121,11 @@ Rcpp::List doLars_c(arma::mat Y, int K, arma::vec phi, arma::vec wts, int p, int
   arma::mat result = arma::zeros<arma::mat>(K, n+2);
   arma::uvec AS(1);
   arma::uvec AS0(1);
+  arma::mat varmatrix = arma::zeros<arma::mat>(p, n);
+  varmatrix.each_col() += Sigma;
+  varmatrix.each_row() += Delta;
   arma::mat c = leftMultiplyByXt_c(Y, phi, wts);
+  
   for (int ii=0; ii<K; ++ii){
     arma::mat cc = c%c; //381 x 32
     arma::mat ccrowsum = cumsum(cc, 1);
@@ -200,21 +205,16 @@ Rcpp::List doLars_c(arma::mat Y, int K, arma::vec phi, arma::vec wts, int p, int
 
 // [[Rcpp::depends("RcppArmadillo")]]
 // [[Rcpp::export]]
-Rcpp::List cnv_c(arma::mat Y, arma::vec tau1, arma::vec wts, int steps, int maxloop=10){
+Rcpp::List cnv_c(arma::mat Y, arma::rowvec cellvar, arma::vec wts, int steps, int maxloop=10){
+  Y.each_row() /= cellvar;
+  /* Initialize phi*/
   const int p = Y.n_rows;/*number of probes*/
   const int n = Y.n_cols; /*number of samples*/
-  //Take care of delta
-  for (int j=0; j<n; ++j){
-    //for (int i=0; i<p; ++i){
-      //Y(i,j) /= sqrt(tau1(j)*tau1(j)+tau2(i)*tau2(i));
-    //}
-    Y.col(j) = Y.col(j) / tau1(j);
-  }
   arma::vec phi = arma::ones<arma::vec>(p);
   int loop = 0;
   arma::vec phi_old = phi + 1e+10;
   double error = 1e+10;
-  //Initialize phi
+  //double error2 = 1e+10;
   while (error > 1e-5 & loop < 10){
     arma::mat theta1 = (phi.t() * Y / p).t();
     phi = Y * theta1 / accu(theta1 % theta1);
@@ -271,12 +271,7 @@ Rcpp::List cnv_c(arma::mat Y, arma::vec tau1, arma::vec wts, int steps, int maxl
       for (int i=1; i<p; ++i){
         theta.row(i) = theta.row(i-1) + delta.row(i);
       }
-      for (int j=0; j<n; ++j){
-        //for (int i=0; i<p; ++i){
-        //  theta(i,j) /= sqrt(tau1(j)*tau1(j)+tau2(i)+tau2(i));
-        //}
-        theta.col(j) = theta.col(j) / tau1(j);
-      }
+      theta.each_row() /= cellvar;
       arma::mat partition(k+1, p);
       partition.fill(NA_REAL);
       if (k==1){
@@ -396,6 +391,54 @@ Rcpp::List cnv_c(arma::mat Y, arma::vec tau1, arma::vec wts, int steps, int maxl
 
 // [[Rcpp::depends("RcppArmadillo")]]
 // [[Rcpp::export]]
+double get_f(arma::mat Y, arma::vec sigma, arma::vec delta){
+  double f = 0;
+  int p = Y.n_rows;
+  int n = Y.n_cols;
+  arma::mat Ysq = Y%Y;
+  arma::vec sigmasq = sigma%sigma;
+  arma::vec deltasq = delta%delta;
+  for (int i=0; i < p; ++i){
+    for (int j=0; j < n; ++j){
+      f -= log(sigmasq(i) + deltasq(j))/2;
+      f -= Ysq(i,j)/(2*(sigmasq(i) + deltasq(j)));
+    }
+  }
+  return f;
+}
+
+// [[Rcpp::depends("RcppArmadillo")]]
+// [[Rcpp::export]]
+arma::vec get_g(arma::mat Y, arma::vec sigma, arma::vec delta2){
+  int p = Y.n_rows;
+  int n = Y.n_cols;
+  arma::rowvec delta = arma::zeros<arma::rowvec>(n);
+  for (int i=0; i<n; ++i){
+    delta(i) = delta2(i);
+  }
+  arma::mat Ysq = Y%Y;
+  arma::mat gsig = arma::zeros<arma::mat>(p,n);
+  arma::mat gdel = arma::zeros<arma::mat>(p,n);
+  arma::mat sigmat = arma::zeros<arma::mat>(p,n);
+  arma::mat delmat = arma::zeros<arma::mat>(p,n);
+  sigmat.each_col()+=sigma;
+  delmat.each_row()+=delta;
+  gsig = -sigmat%sigmat%sigmat + sigmat%(Ysq-delmat%delmat);
+  arma::mat denom = sigmat%sigmat + delmat%delmat;
+  denom = denom%denom;
+  gsig = gsig / denom;
+  gdel = -delmat%delmat%delmat + delmat%(Ysq-sigmat%sigmat);
+  gdel = gdel / denom;
+  arma::mat cumgsig = cumsum(gsig, 1);
+  arma::mat cumgdel = cumsum(gdel.t(), 1);
+  arma::vec g = arma::zeros<arma::vec>(n+p);
+  g.subvec(0,p-1) = cumgsig.col(n-1);
+  g.subvec(p, n+p-1) = cumgdel.col(p-1);
+  return g;
+}
+
+// [[Rcpp::depends("RcppArmadillo")]]
+// [[Rcpp::export]]
 Rcpp::List get_f_and_g(arma::vec sigma, arma::vec delta, arma::mat Y){
   double f = 0;
   int p = Y.n_rows;
@@ -429,41 +472,39 @@ Rcpp::List get_f_and_g(arma::vec sigma, arma::vec delta, arma::mat Y){
 double get_alpha(arma::mat Y, double alpha, double rho, double c, arma::vec sigma, arma::vec delta){
   int p = Y.n_rows;
   int n = Y.n_cols;
-  Rcpp::List fx = get_f_and_g(sigma, delta, Y);
-  double f1 = fx["f"];
-  arma::vec g1 = fx["g"];
-  cout << g1.subvec(p,p+n-1);
-  arma::vec sigma2 = sigma + alpha*g1.subvec(0,p-1);
-  arma::vec delta2 = delta + alpha*g1.subvec(p, p+n-1);
-  Rcpp::List fx_1 = get_f_and_g(sigma2, delta2, Y);
-  double f2 = fx_1["f"];
+  double f1 = get_f(Y, sigma, delta);
+  arma::vec g1 = get_g(Y, sigma, delta);
   double g1cross = accu(g1%g1);
-  int maxit = 100;
+  int maxit = 1000;
   int it = 1;
-  while(f2 < f1 + c*alpha*g1cross && it < maxit){
-    alpha *= rho;
+  double f2 = f1-100;
+  while(f2 > f1 - c*alpha*g1cross && it < maxit){
+    arma::vec sigma2 = sigma - alpha*g1.subvec(0,p-1);
+    arma::vec delta2 = delta - alpha*g1.subvec(p, p+n-1);
+    f2 = get_f(Y, sigma2, delta2);
+    alpha = alpha * rho;
     it = it + 1;
-    cout << alpha;
   }
   return alpha;
 }
 
 // [[Rcpp::depends("RcppArmadillo")]]
 // [[Rcpp::export]]
-arma::vec grdesc(arma::mat Y, arma::vec sig, arma::vec del, int maxit){
+Rcpp::List grdesc(arma::mat Y, arma::vec sig, arma::vec del, int maxit){
   int p = Y.n_rows;
   int n = Y.n_cols;
   arma::vec newsig = sig;
   arma::vec newdel = del;
-  double alpha = 10;
-  double rho = 0.8;
+  arma::vec g = arma::zeros<arma::vec>(n+p);
+  double alpha0 = 1;
+  double rho = 0.9;
   double c = 0.1;
   double diff = 1;
   int it = 1;
-  while(it < maxit && diff < 1e-4){
-    alpha = get_alpha(Y, alpha, rho, c, sig, del);
-    Rcpp::List eval = get_f_and_g(sig, del, Y);
-    arma::vec g = eval["g"];
+  double alpha = 10;
+  while(it < maxit && diff > 1e-4){
+    alpha = get_alpha(Y, alpha0, rho, c, sig, del);
+    g = get_g(Y, sig, del);
     newsig = sig - alpha * g.subvec(0,p-1);
     newdel = del - alpha * g.subvec(p, n+p-1);
     diff = accu((newsig-sig)%(newsig-sig))+accu((newdel-del)%(newdel-del));
@@ -472,9 +513,8 @@ arma::vec grdesc(arma::mat Y, arma::vec sig, arma::vec del, int maxit){
     it += 1;
   }
   return Rcpp::List::create(
-    Rcpp::Named("sigma") = sig, Rcpp::Named("delta") = del
+    Rcpp::Named("sigma") = newsig, Rcpp::Named("delta") = newdel
   );
 }
-
 
 
