@@ -1,0 +1,188 @@
+[
+    {
+        "definitions" : [
+            {
+                "column" : 11,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 14,
+                "name" : "multiplyXtXBySparse_c(int, arma::uvec, arma::mat, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@multiplyXtXBySparse_c#I#$@N@arma@C@Col>#i#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#S2_#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 43,
+                "name" : "leftMultiplyByXt_c(arma::mat, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@leftMultiplyByXt_c#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#S1_#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 59,
+                "name" : "leftMultiplyByInvXAtXA_c(double, arma::uvec, arma::mat, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@leftMultiplyByInvXAtXA_c#d#$@N@arma@C@Col>#i#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#S2_#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 88,
+                "name" : "ic_c(int, arma::mat, arma::vec, arma::rowvec, arma::mat, int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@ic_c#I#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#$@N@arma@C@Row>#d#S0_#I#I#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 110,
+                "name" : "defaultWeights_c(int)",
+                "parent_name" : "",
+                "usr" : "c:@F@defaultWeights_c#I#"
+            },
+            {
+                "column" : 12,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 121,
+                "name" : "doLars_c(arma::mat, int, arma::vec, arma::vec, int, int, double)",
+                "parent_name" : "",
+                "usr" : "c:@F@doLars_c#$@N@arma@C@Mat>#d#I#$@N@arma@C@Col>#d#S1_#I#I#d#"
+            },
+            {
+                "column" : 12,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 221,
+                "name" : "cnv_c(arma::mat, arma::vec, int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@cnv_c#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#I#I#"
+            },
+            {
+                "column" : 8,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 432,
+                "name" : "get_f(arma::mat, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@get_f#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#S1_#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 450,
+                "name" : "get_g(arma::mat, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@get_g#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#S1_#"
+            },
+            {
+                "column" : 12,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 480,
+                "name" : "get_f_and_g(arma::vec, arma::vec, arma::mat)",
+                "parent_name" : "",
+                "usr" : "c:@F@get_f_and_g#$@N@arma@C@Col>#d#S0_#$@N@arma@C@Mat>#d#"
+            },
+            {
+                "column" : 8,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 510,
+                "name" : "get_alpha(arma::mat, double, double, double, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@get_alpha#$@N@arma@C@Mat>#d#d#d#d#$@N@arma@C@Col>#d#S1_#"
+            },
+            {
+                "column" : 12,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 531,
+                "name" : "grdesc(arma::mat, arma::vec, arma::vec, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@grdesc#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#S1_#I#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 563,
+                "name" : "multiplyXtXBySparse_c_old(int, arma::uvec, arma::mat, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@multiplyXtXBySparse_c_old#I#$@N@arma@C@Col>#i#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#S2_#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 592,
+                "name" : "leftMultiplyByXt_c_old(arma::mat, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@leftMultiplyByXt_c_old#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#S1_#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 608,
+                "name" : "leftMultiplyByInvXAtXA_c_old(double, arma::uvec, arma::mat, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@leftMultiplyByInvXAtXA_c_old#d#$@N@arma@C@Col>#i#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#S2_#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 637,
+                "name" : "ic_c_old(int, arma::mat, arma::vec, arma::mat, double, double)",
+                "parent_name" : "",
+                "usr" : "c:@F@ic_c_old#I#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#S0_#d#d#"
+            },
+            {
+                "column" : 11,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 659,
+                "name" : "defaultWeights_c_old(int)",
+                "parent_name" : "",
+                "usr" : "c:@F@defaultWeights_c_old#I#"
+            },
+            {
+                "column" : 12,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 670,
+                "name" : "doLars_slow_old(arma::mat, int, arma::vec, arma::vec, int, int, double)",
+                "parent_name" : "",
+                "usr" : "c:@F@doLars_slow_old#$@N@arma@C@Mat>#d#I#$@N@arma@C@Col>#d#S1_#I#I#d#"
+            },
+            {
+                "column" : 12,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 771,
+                "name" : "doLars_c_old(arma::mat, int, arma::vec, arma::vec, int, int, double)",
+                "parent_name" : "",
+                "usr" : "c:@F@doLars_c_old#$@N@arma@C@Mat>#d#I#$@N@arma@C@Col>#d#S1_#I#I#d#"
+            },
+            {
+                "column" : 12,
+                "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+                "kind" : 6,
+                "line" : 871,
+                "name" : "cnv_c_old(arma::mat, arma::vec, int, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@cnv_c_old#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#I#I#"
+            }
+        ],
+        "file" : "/Users/tae/Dropbox/TaeProject/CopyNumber/cnvJoint/src/all_functions.cpp",
+        "file_last_write" : 1507215486
+    }
+]
