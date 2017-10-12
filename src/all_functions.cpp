@@ -340,7 +340,6 @@ Rcpp::List cnv_c(arma::mat Y, arma::vec wts, int steps, int maxloop=10){
       arma::mat xitempcumsum = cumsum(xitemp2, 0);
       arma::rowvec colsumxi = xitempcumsum.row(p-1);
       xi = colsumxi / accu(phi%phi);
-      //xi = xi*sqrt(n)/sqrt(accu(xi%xi));
       arma::rowvec meanxi = arma::zeros<arma::rowvec>(n);
       meanxi.fill(accu(xi)/n);
       xi = xi - meanxi;
