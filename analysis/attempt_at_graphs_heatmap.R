@@ -355,21 +355,23 @@ ggplot(crossdist,aes(x=clustindex,y=value,fill=factor(variable)))+
   ggtitle("(b)")
 dev.off()
 
-
+####plot xi####
 
 encode_xi = encode_res$aic$xi[1,]
 poly_xi = poly_res$aic$xi[1,]
 lung_xi = lung_res$aic$xi[1,]
 
+xi = data.frame(x=c(encode_xi,poly_xi,lung_xi),
+                lab = c(rep('ENCODE', 32), rep('DOP-PCR', 100), rep('MALBAC', 29)))
+xi$lab = factor(xi$lab, levels=c('ENCODE','DOP-PCR','MALBAC'),ordered = TRUE)
+ggplot(xi, aes(x=lab, y=x)) + geom_boxplot()+
+  ggtitle(expression("distribution of"~xi))
+
+
+####observe spikes####
 for (i in 1:32){
-  plot(encode_res$aic$theta[,i], ylim = c(-5,5), type = 'l', main = i)
-  lines(encode_res_MBAmethyl$aic$theta[,i], col = 'red')
+  plot(encode_res$aic$theta[1:100,i], ylim = c(-5,5), type = 'l', main = i)
+  lines(encode_res_MBAmethyl$aic$theta[1:100,i], col = 'red')
   Sys.sleep(0.5)
 }
 
-xi = data.frame(x=c(encode_xi,poly_xi,lung_xi),
-                lab = c(rep('ENCODE', 32), rep('DOP-PCR', 100), rep('MALBAC', 29)))
-xi$lab = as.factor(xi$lab, levels=c('ENCODE','DOP-PCR','MALBAC'),ordered = TRUE)
-ggplot(xi, aes(x=lab, y=x)) + geom_boxplot()
-boxplot(encode_xi, poly_xi, lung_xi,
-        names = c('ENCODE', 'DOP-PCR', 'MALBAC'))
