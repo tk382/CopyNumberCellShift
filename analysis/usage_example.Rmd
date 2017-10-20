@@ -1,0 +1,17 @@
+---
+title: "Example Usage"
+author: "Tae Kim"
+date: "10/12/2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      cache = FALSE,
+                      fig.align = center,
+                      comment = NA,
+                      warning = FALSE,
+                      message = FALSE)
+```
+
+We first take a look at an example data set. 

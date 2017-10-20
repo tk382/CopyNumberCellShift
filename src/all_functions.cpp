@@ -288,6 +288,8 @@ Rcpp::List cnv_c(arma::mat Y, arma::vec wts, int steps, int maxloop=10){
       for (int i=1; i<p; ++i){
         theta.row(i) = theta.row(i-1) + delta.row(i);
       }
+
+      //partition
       arma::mat partition(k+1, p);
       partition.fill(NA_REAL);
       if (k==1){
@@ -311,10 +313,11 @@ Rcpp::List cnv_c(arma::mat Y, arma::vec wts, int steps, int maxloop=10){
           }
         }
       }
+
+      //Update phi
       arma::mat thetaY = theta%Y + Y.each_row()%xi;
       arma::mat thetaYcumsum = cumsum(thetaY, 1);
       arma::vec thetaYrowsum = thetaYcumsum.col(n-1);
-
       arma::mat newtheta = theta.each_row() + xi;
       arma::mat thetathetacumsum = cumsum(newtheta%newtheta, 1);
       arma::vec thetasqrowsum = thetathetacumsum.col(n-1);
@@ -335,6 +338,7 @@ Rcpp::List cnv_c(arma::mat Y, arma::vec wts, int steps, int maxloop=10){
       error = sqrt(error);
       phi = phi_new;
 
+      //Update xi
       arma::mat xitemp1 = (Y - theta.each_col()%phi);
       arma::mat xitemp2 = xitemp1.each_col() % phi;
       arma::mat xitempcumsum = cumsum(xitemp2, 0);
@@ -347,7 +351,6 @@ Rcpp::List cnv_c(arma::mat Y, arma::vec wts, int steps, int maxloop=10){
       loop += 1;
 
       //Compute the optimization objective Q1, check convergence
-
       arma::vec res = ic_c(k,Y,phi,xi,theta,p,n);
       double q1 = res(0) * 2* n * p;
       for (int i = 0; i < (p-1); ++i){
@@ -359,6 +362,7 @@ Rcpp::List cnv_c(arma::mat Y, arma::vec wts, int steps, int maxloop=10){
         alternating = (abs(q(loop-1)-q(loop-3)) + abs(q(loop-2) - q(loop-4)) > 1e-3);
       }
     }
+    //update sign of theta
     arma::vec res = ic_c(k, Y, phi, xi, theta, p, n);
     rss_list(k-1) = res(0);
     aic_list(k-1) = res(1);

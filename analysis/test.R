@@ -5,7 +5,7 @@ library(lmvar)
 library(ggplot2)
 library(reshape2)
 library(gridExtra)
-library(MBAmethyl)
+#library(CopyNumberCellShift)
 setwd('/Users/tae/Dropbox/TaeProject/CopyNumber/CopyNumberCellShift')
 Rcpp::sourceCpp('src/all_functions.cpp')
 
@@ -17,11 +17,11 @@ Y = as.matrix(apply(X, 2, as.numeric))
 
 
 ######get clusters and organize Y#####
-#clust <- hclust(dist(t(Y)))
-#plot(clust)
-#clusterCut <- cutree(clust, 3)
-k = kmeans(t(Y), 3)
-clusterCut = k$cluster
+clust <- hclust(dist(t(Y)))
+plot(clust)
+clusterCut <- cutree(clust, 3)
+#k = kmeans(t(Y), 2)
+#clusterCut = k$cluster
 ind = sort(clusterCut, index.return = TRUE)$ix
 Y = Y[,ind]
 #Y = cbind(Y[,clusterCut==1], Y[, clusterCut==2], Y[,clusterCut==3])
@@ -203,7 +203,7 @@ intra_cluster = which(clusterCut==1)
 outtemp = get_distance_matrix(intra_cluster)
 
 across_cluster = 1:ncol(Y)
-out = get_intra_cluster_var(across_cluster)
+out = get_distance_matrix(across_cluster)
 
 
 #####visualize distance matrix#####
@@ -222,7 +222,7 @@ odplot = ggplot(od, aes(Var1, Var2)) +
         axis.title.y=element_blank(),
         axis.text.y=element_blank(),
         axis.ticks.y=element_blank()) +
-  labs(title='MALBAC circulating lung tumor cells')
+  labs(title='Original data')
 ndplot = ggplot(nd, aes(Var1, Var2)) +
   geom_tile(aes(fill = value),colour = "white") +
   scale_fill_gradient(low = "white", high = "indianred",

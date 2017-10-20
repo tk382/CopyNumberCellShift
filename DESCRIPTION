@@ -2,7 +2,7 @@ Package: CopyNumberCellShift
 Type: Package
 Title: Copy Number Analysis with Cell Specific Effects
 Version: 0.1.0
-Author: Who wrote it
+Author: Tae Kim <tk382@uchicago.edu>
 Maintainer: Tae Kim <tk382@uchicago.edu>
 Description: Change-point detection with cell-specific shifts
 License: What license is it under?
