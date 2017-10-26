@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  20 OCT 2017 13:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  20 OCT 2017 14:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -576,29 +576,29 @@ LaTeX Warning: Citation `wang2016estimating' on page 1 undefined on input line
 [1
 
 {/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 80--81
+Underfull \hbox (badness 10000) in paragraph at lines 78--79
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 92--93
+Underfull \hbox (badness 10000) in paragraph at lines 90--91
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 95--96
+Underfull \hbox (badness 10000) in paragraph at lines 93--94
 
  []
 
 [2]
 
-LaTeX Warning: Reference `diffmat' on page 3 undefined on input line 99.
+LaTeX Warning: Reference `diffmat' on page 3 undefined on input line 97.
 
 <encode_MBAmethyl_theta_heat.pdf, id=57, 867.24pt x 578.16pt>
 File: encode_MBAmethyl_theta_heat.pdf Graphic file (type pdf)
 
 <use encode_MBAmethyl_theta_heat.pdf>
-Package pdftex.def Info: encode_MBAmethyl_theta_heat.pdf used on input line 104
+Package pdftex.def Info: encode_MBAmethyl_theta_heat.pdf used on input line 102
 .
 (pdftex.def)             Requested size: 244.3474pt x 162.89822pt.
 
@@ -606,7 +606,7 @@ Package pdftex.def Info: encode_MBAmethyl_theta_heat.pdf used on input line 104
 File: encode_cnvJoint_theta_heat.pdf Graphic file (type pdf)
 
 <use encode_cnvJoint_theta_heat.pdf>
-Package pdftex.def Info: encode_cnvJoint_theta_heat.pdf used on input line 105.
+Package pdftex.def Info: encode_cnvJoint_theta_heat.pdf used on input line 103.
 
 (pdftex.def)             Requested size: 244.3474pt x 162.89822pt.
 
@@ -614,49 +614,49 @@ Package pdftex.def Info: encode_cnvJoint_theta_heat.pdf used on input line 105.
 File: poly_MBAmethyl_theta_heat.pdf Graphic file (type pdf)
 
 <use poly_MBAmethyl_theta_heat.pdf>
-Package pdftex.def Info: poly_MBAmethyl_theta_heat.pdf used on input line 106.
+Package pdftex.def Info: poly_MBAmethyl_theta_heat.pdf used on input line 104.
 (pdftex.def)             Requested size: 244.3474pt x 162.89822pt.
 
 <poly_cnvJoint_theta_heat.pdf, id=60, 867.24pt x 578.16pt>
 File: poly_cnvJoint_theta_heat.pdf Graphic file (type pdf)
 
 <use poly_cnvJoint_theta_heat.pdf>
-Package pdftex.def Info: poly_cnvJoint_theta_heat.pdf used on input line 107.
+Package pdftex.def Info: poly_cnvJoint_theta_heat.pdf used on input line 105.
 (pdftex.def)             Requested size: 244.3474pt x 162.89822pt.
 
 <lung_MBAmethyl_theta_heat.pdf, id=61, 867.24pt x 578.16pt>
 File: lung_MBAmethyl_theta_heat.pdf Graphic file (type pdf)
 
 <use lung_MBAmethyl_theta_heat.pdf>
-Package pdftex.def Info: lung_MBAmethyl_theta_heat.pdf used on input line 108.
+Package pdftex.def Info: lung_MBAmethyl_theta_heat.pdf used on input line 106.
 (pdftex.def)             Requested size: 244.3474pt x 162.89822pt.
 
 <lung_cnvJoint_theta_heat.pdf, id=62, 867.24pt x 578.16pt>
 File: lung_cnvJoint_theta_heat.pdf Graphic file (type pdf)
 
 <use lung_cnvJoint_theta_heat.pdf>
-Package pdftex.def Info: lung_cnvJoint_theta_heat.pdf used on input line 109.
+Package pdftex.def Info: lung_cnvJoint_theta_heat.pdf used on input line 107.
 (pdftex.def)             Requested size: 244.3474pt x 162.89822pt.
 
 <encode_distmat_heat.pdf, id=63, 794.97pt x 361.35pt>
 File: encode_distmat_heat.pdf Graphic file (type pdf)
 
 <use encode_distmat_heat.pdf>
-Package pdftex.def Info: encode_distmat_heat.pdf used on input line 117.
+Package pdftex.def Info: encode_distmat_heat.pdf used on input line 115.
 (pdftex.def)             Requested size: 398.93158pt x 181.3362pt.
 
 <poly_distmat_heat.pdf, id=64, 794.97pt x 361.35pt>
 File: poly_distmat_heat.pdf Graphic file (type pdf)
 
 <use poly_distmat_heat.pdf>
-Package pdftex.def Info: poly_distmat_heat.pdf used on input line 118.
+Package pdftex.def Info: poly_distmat_heat.pdf used on input line 116.
 (pdftex.def)             Requested size: 398.93158pt x 181.3362pt.
 
 <lung_distmat_heat.pdf, id=65, 794.97pt x 361.35pt>
 File: lung_distmat_heat.pdf Graphic file (type pdf)
 
 <use lung_distmat_heat.pdf>
-Package pdftex.def Info: lung_distmat_heat.pdf used on input line 119.
+Package pdftex.def Info: lung_distmat_heat.pdf used on input line 117.
 (pdftex.def)             Requested size: 398.93158pt x 181.3362pt.
 
 
@@ -666,14 +666,14 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 File: intraclusters_bar.pdf Graphic file (type pdf)
 
 <use intraclusters_bar.pdf>
-Package pdftex.def Info: intraclusters_bar.pdf used on input line 128.
+Package pdftex.def Info: intraclusters_bar.pdf used on input line 126.
 (pdftex.def)             Requested size: 224.39664pt x 112.19598pt.
 
 <acrossclusters_bar.pdf, id=67, 867.24pt x 433.62pt>
 File: acrossclusters_bar.pdf Graphic file (type pdf)
 
 <use acrossclusters_bar.pdf>
-Package pdftex.def Info: acrossclusters_bar.pdf used on input line 129.
+Package pdftex.def Info: acrossclusters_bar.pdf used on input line 127.
 (pdftex.def)             Requested size: 224.39664pt x 112.19598pt.
 
 
@@ -682,7 +682,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <dist_xi.png, id=68, 680.5425pt x 461.725pt>
 File: dist_xi.png Graphic file (type png)
  <use dist_xi.png>
-Package pdftex.def Info: dist_xi.png used on input line 138.
+Package pdftex.def Info: dist_xi.png used on input line 136.
 (pdftex.def)             Requested size: 398.93158pt x 270.6611pt.
 
 
@@ -693,31 +693,28 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 LaTeX Warning: Empty `thebibliography' environment on input line 3.
 
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 150.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 148.
  [3 <./encode_MBAmethyl_theta_heat.pdf> <./encode_cnvJoint_theta_heat.pdf> <./p
 oly_MBAmethyl_theta_heat.pdf> <./poly_cnvJoint_theta_heat.pdf> <./lung_MBAmethy
 l_theta_heat.pdf> <./lung_cnvJoint_theta_heat.pdf>] [4 <./encode_distmat_heat.p
 df> <./poly_distmat_heat.pdf> <./lung_distmat_heat.pdf>] [5 <./intraclusters_ba
 r.pdf> <./acrossclusters_bar.pdf> <./dist_xi.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 150.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 148.
  (./paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 150.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 150.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 148.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 148.
 Package rerunfilecheck Info: File `paper.out' has not changed.
 (rerunfilecheck)             Checksum: DE9F02E5BD03349ED3452EA2D96DE2A2;371.
 
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 150.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 148.
  ) 
 Here is how much of TeX's memory you used:
  9427 strings out of 492995
  142481 string characters out of 6132704
- 251217 words of memory out of 5000000
+ 251216 words of memory out of 5000000
  12808 multiletter control sequences out of 15000+600000
  14427 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -734,7 +731,7 @@ l/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/
 texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/tex
 live/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texl
 ive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on paper.pdf (5 pages, 501247 bytes).
+Output written on paper.pdf (5 pages, 500619 bytes).
 PDF statistics:
  201 PDF objects out of 1000 (max. 8388607)
  150 compressed objects within 2 object streams

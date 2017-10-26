@@ -7,3 +7,4 @@ for (i in 1:nrow(bulk)){
   if(bulk$V4[i]=='homo.del'){bulk$interpret[i]=0}
   if(bulk$V4[i]=='normal'){bulk$interpret[i]=2}
 }
+(bulk[bulk$V1=='chr22', 'interpret'])

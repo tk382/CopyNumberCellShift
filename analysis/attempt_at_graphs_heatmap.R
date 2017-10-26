@@ -33,11 +33,11 @@ get_result = function(Y){
   wts = as.numeric(defaultWeights_c(nrow(Y)))
   steps = min(nrow(Y),ncol(Y))-8
   res = cnv_c(as.matrix(Y), wts, steps, 30)
-  #res$aic$theta = res$aic$theta * as.numeric(sign(res$aic$phi))
-  #res$bic$theta = res$bic$theta * as.numeric(sign(res$bic$phi))
+  res$aic$theta = res$aic$theta * as.numeric(sign(res$aic$phi))
+  res$bic$theta = res$bic$theta * as.numeric(sign(res$bic$phi))
   res_MBAmethyl = cnv_c_old(as.matrix(Y),wts,steps,30)
-  #res_MBAmethyl$aic$theta = res_MBAmethyl$aic$theta * as.numeric(sign(res_MBAmethyl$aic$phi))
-  #res_MBAmethyl$bic$theta = res_MBAmethyl$bic$theta * as.numeric(sign(res_MBAmethyl$bic$phi))
+  res_MBAmethyl$aic$theta = res_MBAmethyl$aic$theta * as.numeric(sign(res_MBAmethyl$aic$phi))
+  res_MBAmethyl$bic$theta = res_MBAmethyl$bic$theta * as.numeric(sign(res_MBAmethyl$bic$phi))
   return(list(res=res, res_MBAmethyl = res_MBAmethyl))
 }
 
@@ -370,8 +370,9 @@ ggplot(xi, aes(x=lab, y=x)) + geom_boxplot()+
 
 ####observe spikes####
 for (i in 1:32){
-  plot(encode_res$aic$theta[1:100,i], ylim = c(-5,5), type = 'l', main = i)
-  lines(encode_res_MBAmethyl$aic$theta[1:100,i], col = 'red')
+  plot(encode_res$aic$theta[,i], ylim = c(-5,5), type = 'l', main = i)
+  #lines(encode_res_MBAmethyl$aic$theta[,i], col = 'red')
+  lines(encode_Y[, i], col = 'red')
   Sys.sleep(0.5)
 }
 

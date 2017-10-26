@@ -72,17 +72,15 @@ $$= \frac{
 \end{itemize}
 
 \subsection{Constraints for identifiability}
-\noindent We limit the L2 norm of $\phi$ to the length of the vector $\phi$, and we constrain the mean of $\xi$ to be 0. An interpretation of this constraint is like that of random effects centered at zero. We don't however impose any distributional assumption.
-
-\noindent Also, in order to prevent the sign-flipping due to the probe effect $\phi$, at the last step of the algorithm, we multiplied the sign of $\phi$ to the resulting $\Theta$ values in order to match the sign of $Y$ value. For example, when $Y$ is positive for certain sample, it is possible that since $\phi$ is negative, 
+\noindent We limit the L2 norm of $\phi$ to be the length of the vector $\phi$, and we constrain the mean of $\xi$ to be 0. An interpretation of this constraint is like that of random effects centered at zero. We don't however impose any distributional assumption.
 
 \section{Data}
 We tested our method with three public data sets. First data set labeled as `encode' is from K562 cell lines from the ENCODE project whose bulk sequencing data is available as well, enabling the verification of the result. The second and third ones come from Ginkgo's web tool for analyzing single-cell sequencing data. We took polygenomic breast tumor data and circulating lung tumor cells where each of them were sequenced through DOP-PCR and MALBAC respectively. \\
 
-\noindent Ginkgo provides the normalized read counts data. For the analysis of copy number, we took the log ratio of the read counts over 2. When the read counts for sample $j$ on probe $i$ 
+\noindent Ginkgo provides the normalized read counts data. For the analysis of copy number, we take the log ratio of the read counts over 2. 
 
 \section{Results}
-\noindent We ran the algorithms assuming two models below for multiple data sets to compare their performances. The older model without the cell-specific effects is labeled "MBAmethyl" as the original package name, and the new method is labeled "cnvJoint" as our new package name. 
+\noindent We ran the algorithms assuming the two models below for multiple data sets to compare their performances. The older model without the cell-specific effects is labeled "MBAmethyl" as the original package name, and the new method is labeled "cnvJoint" as our new package name. 
 
 \begin{align*}
 \text{MBAmethyl : }&Y_{ij} = \Theta_{ij} * \phi_i + \epsilon_{ij}\\
@@ -94,7 +92,7 @@ We tested our method with three public data sets. First data set labeled as `enc
 
 \noindent For the Ginkgo data sets, we normalized the copy numbers in the following way. First of all, we discovered the 'normal cells' through clustering. Then for each of those samples, we removed the outliers by taking 25\% and 75\% quantile for each sample $j$. Then we took the median for each $j$. Then we took the mean of those medians across all the samples, and took that as our baseline copy number for each probe. So we divided every element by the baseline and took $log$. Therefore, for normal cells, we expect constant log ratio 0 for all probes, but we expect either positive or negative shifts in tumor cells. We do not expect all tumors to have the same copy number variation pattern, but we expect the change point will tend to be shared across the tumor cells within the same cluster.\\
 
-The euclidean distance between two cells was normalized by the number of probes : 
+\noindent The euclidean distance between two cells was normalized by the number of probes : 
 $$\Lambda_{i,j} = \sum_{l=1}^{p} (\Theta_{l, i} - \Theta_{l, j})^2 / p$$
 $\Lambda$ is visualized in Figure \ref{diffmat}.
 
