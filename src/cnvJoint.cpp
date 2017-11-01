@@ -1,12 +1,414 @@
+// includes from the plugin
+//#define ARMA_DONT_PRINT_ERRORS
 #include <RcppArmadillo.h>
-#include <RcppArmadilloExtensions/sample.h>
+#include <Rcpp.h>
+
+
+#ifndef BEGIN_RCPP
+#define BEGIN_RCPP
+#endif
+
+#ifndef END_RCPP
+#define END_RCPP
+#endif
+
 using namespace Rcpp;
 using namespace std;
 
-/*
- * We look at the model
- * Y_ij - \phi_i (\Theta_{ij} + \delta_j)
- */
+// declarations
+extern "C" {
+SEXP coneACpp( SEXP y, SEXP amat, SEXP face) ;
+}
+
+// definition
+SEXP coneACpp( SEXP y, SEXP amat, SEXP face){
+BEGIN_RCPP
+
+    Rcpp::NumericVector y_(y);
+    Rcpp::NumericMatrix amat_(amat);
+    int n = y_.size(), m = amat_.nrow();
+    arma::mat namat(amat_.begin(), m, n, false);
+    arma::colvec ny(y_.begin(), n, false);
+    float sm = 1e-8;
+    arma::colvec h(m); h.fill(0);
+    arma::colvec obs = arma::linspace(0, m-1, m);
+    int check = 0;
+    arma::mat amat_in = namat;
+//new:
+    arma::colvec face_ = Rcpp::as<arma::colvec>(face);
+    int nf = face_.n_rows;
+
+    for(int im = 0; im < m; im ++){
+        arma::mat nnamat = namat.row(im) * namat.row(im).t();
+        amat_in.row(im) = namat.row(im) / sqrt(nnamat(0,0));
+    }
+
+    arma::mat delta = -amat_in;
+    arma::colvec b2 = delta * ny;
+    arma::colvec theta(n); theta.fill(0);
+
+    if(max(b2) > 2 * sm){
+        int i = min(obs.elem(find(b2 == max(b2))));
+        h(i) = 1;
+//new:
+        if(!face_.is_empty()) {
+            for (int i = 0; i < nf; i ++) {
+                int posi = face_(i) - 1;
+                h(posi) = 1;
+            }
+        }
+    }
+    else{check = 1;}
+
+    int nrep = 0;
+//new:
+    arma::mat xmat_use;
+    while(check == 0 & nrep < (n * n)){
+        nrep ++ ;
+        arma::colvec indice = arma::linspace(0, delta.n_rows - 1, delta.n_rows);
+        indice = indice.elem(find(h == 1));
+        arma::mat xmat(indice.n_elem, delta.n_cols); xmat.fill(0);
+
+        for(int k = 0; k < indice.n_elem; k ++){
+            xmat.row(k) = delta.row(indice(k));
+        }
+
+        arma::colvec a = solve(xmat * xmat.t(), xmat * ny);
+        arma::colvec avec(m); avec.fill(0);
+
+        if(min(a) < (-sm)){
+            avec.elem(find(h == 1)) = a;
+            int i = min(obs.elem(find(avec == min(avec))));
+            h(i) = 0;
+            check = 0;
+        }
+
+        else{
+            check = 1;
+            theta = xmat.t() * a;
+            b2 = delta * (ny - theta)/n;
+
+            if(max(b2) > 2 * sm){
+                int  i = min(obs.elem(find(b2 == max(b2))));
+                h(i) = 1;
+                check = 0;
+            }
+        }
+//new:
+       xmat_use = xmat;
+    }
+
+    //if(nrep > (n * n - 1)){Rcpp::Rcout << "Fail to converge in coneproj!Too many steps! Number of steps:" << nrep << std::endl;}
+
+    return wrap(Rcpp::List::create(Rcpp::Named("thetahat") = ny - theta, Named("xmat") = xmat_use, Named("dim") = n - sum(h), Named("nrep") = nrep, Named("h") = h));
+
+END_RCPP
+}
+
+// declarations
+extern "C" {
+SEXP coneBCpp( SEXP y, SEXP delta, SEXP vmat, SEXP face) ;
+}
+
+// definition
+SEXP coneBCpp( SEXP y, SEXP delta, SEXP vmat, SEXP face){
+BEGIN_RCPP
+
+    Rcpp::NumericVector y_(y);
+    Rcpp::NumericMatrix delta_(delta);
+    arma::mat nvmat = Rcpp::as<arma::mat>(vmat);
+    int n = y_.size(), m = delta_.nrow(), p = nvmat.n_cols;
+    arma::colvec ny(y_.begin(), n, false);
+    arma::mat ndelta(delta_.begin(), m, n, false);
+    arma::mat a;
+    arma::mat sigma;
+    arma::colvec h;
+//new:
+    arma::colvec face_ = Rcpp::as<arma::colvec>(face);
+    int nf = face_.n_rows;
+    arma::colvec obs;
+    arma::mat theta(n, 1);
+
+    float sm = 1e-8;
+//new: test!
+    //float sm = 1e-5;
+    int check = 0;
+
+    arma::colvec scalar(m);
+    arma::mat delta_in = ndelta;
+
+    for(int im = 0; im < m; im ++){
+        arma::mat nndelta = ndelta.row(im) * ndelta.row(im).t();
+        scalar(im) = sqrt(nndelta(0,0));
+        delta_in.row(im) = ndelta.row(im) / scalar(im);
+    }
+
+    if(nvmat.is_empty()){
+       p = p - 1;
+       sigma.set_size(m, n);
+       sigma = delta_in;
+       h.set_size(m);
+       h.fill(0);
+       obs.set_size(m);
+       obs = arma::linspace(0, m - 1, m);
+       theta.fill(0);
+    }
+
+    if(!nvmat.is_empty()){
+        sigma.set_size(m + p, n);
+        sigma.rows(0, p - 1) = nvmat.t(); sigma.rows(p, m + p - 1) = delta_in;
+        h.set_size(m + p);
+        h.fill(0);
+        for(int i = 0; i < p; i ++){
+          h(i) = 1;
+        }
+        obs.set_size(m + p);
+        obs = arma::linspace(0, m + p - 1, m + p);
+        theta = nvmat * solve(nvmat.t() * nvmat, nvmat.t() * ny);
+    }
+
+    arma::colvec b2 = sigma * (ny - theta) / n;
+
+    if(max(b2) > 2 * sm){
+        int i = min(obs.elem(find(b2 == max(b2))));
+        h(i) = 1;
+//new:
+        if(!face_.is_empty()) {
+            for (int i = 0; i < nf; i ++) {
+                int posi = face_(i) - 1;
+                h(posi) = 1;
+            }
+        }
+    }
+
+    int nrep = 0;
+
+    if(max(b2) <= 2 * sm){
+        check = 1;
+        theta.fill(0);
+
+        if(nvmat.is_empty()){
+           a.set_size(m, 1); a.fill(0);
+        }
+
+        if(!nvmat.is_empty()){
+           a.set_size(p, 1);
+           a = solve(nvmat.t() * nvmat, nvmat.t() * ny);
+           theta = nvmat * solve(nvmat.t() * nvmat, nvmat.t() * ny);
+        }
+        arma::colvec avec(m + p); avec.fill(0);
+        if(!nvmat.is_empty()){
+          avec.elem(find(h == 1)) = a;
+        }
+        return wrap(Rcpp::List::create(Named("yhat") = theta, Named("coefs") = avec, Named("nrep") = nrep, Named("dim") = sum(h)));
+    }
+//new:
+    //int upper = n*n - 1;
+    //int upper = 1000;
+   // while(check == 0 & nrep < (n * n)){
+//double sc = 0;
+   while(check == 0 & nrep < 1e+6){
+        nrep ++;
+        //if(nrep > (n * n)){
+          // throw (Rcpp::exception("Fail to converge in coneproj! nrep > n^2 !"));
+        //}
+        arma::colvec indice = arma::linspace(0, sigma.n_rows-1, sigma.n_rows);
+        indice = indice.elem(find(h == 1));
+        arma::mat xmat(indice.n_elem, sigma.n_cols); xmat.fill(0);
+
+        for(int k = 0; k < indice.n_elem; k ++){
+            xmat.row(k) = sigma.row(indice(k));
+        }
+ 	//double sc = arma::norm(xmat * xmat.t(), 2);
+        a = solve(xmat * xmat.t(), xmat * ny);
+//new:
+       if (a.n_elem > p) {
+            arma::colvec a_sub(a.n_elem - p);
+
+            for(int i = p; i <= a.n_elem - 1; i ++){
+                a_sub(i-p) = a(i);
+            }
+
+            if(min(a_sub) < (- sm)){
+                arma::colvec avec(m + p); avec.fill(0);
+                avec.elem(find(h == 1)) = a;
+                arma::colvec avec_sub(m);
+
+                for(int i = p; i <= p + m - 1; i ++){
+                    avec_sub(i-p) = avec(i);
+                }
+
+                int i = max(obs.elem(find(avec == min(avec_sub))));
+                h(i) = 0;
+                check = 0;
+            }
+
+            if(min(a_sub) > (-sm)){
+                check = 1;
+                theta = xmat.t() * a;
+                b2 = sigma * (ny - theta) / n;
+//arma::mat sc0 = sqrt(b2.t() * b2);
+//sc = sqrt(sc0(0,0));
+//sc = arma::as_scalar(b2.t() * b2);
+                //if(max(b2) > 2 * sc * sm){
+		//if((max(b2) * sc) > 2 * sm){
+                if(max(b2) > 2 * sm){
+                    int i = min(obs.elem(find(b2 == max(b2))));
+                    check = 0;
+                    h(i) = 1;
+                }
+            }
+        } else {
+            check = 1;
+       }
+//new: avoid the mismatch problem
+       if (nrep == 1e+6) {
+            arma::colvec indiceEnd = arma::linspace(0, sigma.n_rows-1, sigma.n_rows);
+       	    indiceEnd = indiceEnd.elem(find(h == 1));
+            arma::mat xmat(indiceEnd.n_elem, sigma.n_cols); xmat.fill(0);
+            for(int k = 0; k < indiceEnd.n_elem; k ++){
+                xmat.row(k) = sigma.row(indiceEnd(k));
+            }
+            //sc = norm(xmat * xmat.t(), 2);
+            a = solve(xmat * xmat.t(), xmat * ny);
+            theta = xmat.t() * a;
+       }
+   }
+
+   arma::colvec avec(m + p); avec.fill(0);
+   avec.elem(find(h == 1)) = a;
+   arma::colvec avec_orig(m + p); avec_orig.fill(0);
+
+   for(int i = 0; i < p; i ++){
+      avec_orig(i) = avec(i);
+   }
+
+   for(int i = p; i < (m + p); i ++){
+      avec_orig(i) = avec(i) / scalar(i - p);
+   }
+   // if(nrep > (n * n - 1)){Rcpp::Rcout << "Fail to converge in coneproj!Too many steps! Number of steps:" << nrep << std::endl;}
+   return wrap(Rcpp::List::create(Named("yhat") = theta, Named("coefs") = avec_orig, Named("nrep") = nrep, Named("dim") = sum(h)));
+
+END_RCPP
+}
+
+// declarations
+extern "C" {
+SEXP qprogCpp( SEXP q, SEXP c, SEXP amat, SEXP b, SEXP face) ;
+}
+
+// [[Rcpp::export]]
+SEXP qprogCpp( SEXP q, SEXP c, SEXP amat, SEXP b){
+BEGIN_RCPP
+
+    Rcpp::NumericVector c_(c);
+    Rcpp::NumericMatrix q_(q);
+    Rcpp::NumericMatrix amat_(amat);
+    Rcpp::NumericVector nb(b);
+    int n = c_.size(), m = amat_.nrow();
+    arma::colvec nc(c_.begin(), n, false);
+    arma::mat namat(amat_.begin(), m, n, false);
+    arma::mat nq(q_.begin(), n, n, false);
+    bool constr = is_true(any( nb != 0 ));
+    arma::colvec theta0(n);
+    arma::colvec nnc(n);
+
+    //arma::colvec face_ = Rcpp::as<arma::colvec>(face);
+    //int nf = face_.n_rows;
+
+    if(constr){
+        arma::colvec b_(nb.begin(), m, false);
+        theta0 = solve(namat, b_);
+        nnc = nc - nq * theta0;
+    }
+
+    else{nnc = nc;}
+
+    arma::mat preu = chol(nq);
+    arma::mat u = trimatu(preu);
+    arma::colvec z = inv(u).t() * nnc;
+    arma::mat atil = namat * inv(u);
+
+    float sm = 1e-8;
+    arma::colvec h(m); h.fill(0);
+    arma::colvec obs = arma::linspace(0, m-1, m);
+    int check = 0;
+
+    for(int im = 0; im < m; im ++){
+        arma::mat atilnorm = atil.row(im) * atil.row(im).t();
+        atil.row(im) = atil.row(im) / sqrt(atilnorm(0,0));
+    }
+
+    arma::mat delta = -atil;
+    arma::colvec b2 = delta * z;
+    arma::colvec phi(n); phi.fill(0);
+
+    if(max(b2) > 2 * sm){
+        int i = min(obs.elem(find(b2 == max(b2))));
+        h(i) = 1;
+//new:
+        //if(!face_.is_empty()) {
+        //    for (int i = 0; i < nf; i ++) {
+        //        int posi = face_(i) - 1;
+        //        h(posi) = 1;
+        //    }
+        //}
+    }
+
+    else{check = 1;}
+
+    int nrep = 0;
+//new:
+    arma::mat xmat_use;
+    while(check == 0 & nrep < (n * n)){
+        nrep ++ ;
+       // if(nrep > (n * n)){
+         //  throw (Rcpp::exception("Fail to converge in coneproj! nrep > n^2 !"));}
+        arma::colvec indice = arma::linspace(0, delta.n_rows - 1, delta.n_rows);
+        indice = indice.elem(find(h == 1));
+        arma::mat xmat(indice.n_elem, delta.n_cols); xmat.fill(0);
+
+        for(int k = 0; k < indice.n_elem; k ++){
+        xmat.row(k) = delta.row(indice(k));
+        }
+
+        arma:: colvec a = solve(xmat * xmat.t(), xmat * z);
+        arma:: colvec avec(m); avec.fill(0);
+
+        if(min(a) < (-sm)){
+            avec.elem(find(h == 1)) = a;
+            int i = min(obs.elem(find(avec == min(avec))));
+            h(i) = 0;
+            check = 0;
+        }
+
+        else{
+            check = 1;
+            phi = xmat.t() * a;
+            b2 = delta * (z - phi)/n;
+
+            if(max(b2) > 2 * sm){
+                int  i = min(obs.elem(find(b2 == max(b2))));
+                h(i) = 1;
+                check = 0;
+            }
+        }
+	//new:
+    	xmat_use = xmat;
+    }
+
+    arma::colvec thetahat = solve(u, z - phi);
+
+    if(constr){
+        thetahat = thetahat + theta0;
+    }
+
+    // if(nrep > (n * n - 1)){Rcpp::Rcout << "Fail to converge in qprog!Too many steps! Number of steps:" << nrep << std::endl;}
+
+    return wrap(Rcpp::List::create(Rcpp::Named("thetahat") = thetahat, Named("xmat") = xmat_use, Named("dim") = n - sum(h), Named("nrep") = nrep, Named("h") = h));
+
+END_RCPP
+}
 
 // [[Rcpp::depends("RcppArmadillo")]]
 // [[Rcpp::export]]
@@ -122,12 +524,9 @@ Rcpp::List doLars_c(arma::mat Y, int K, arma::vec phi, arma::vec wts, int p, int
   arma::uvec res_bkp = arma::zeros<arma::uvec>(K);
   arma::mat res_value = arma::zeros<arma::mat>(K,n);
   arma::mat res_value_old = arma::zeros<arma::mat>(K,n);
-  //arma::mat res_value;
-  //arma::mat res_value_old;
   arma::mat result = arma::zeros<arma::mat>(K, n+2);
   arma::uvec AS(1);
   arma::uvec AS0(1);
-  /*empty the upper triangle*/
   arma::mat c = leftMultiplyByXt_c(Y, phi, wts);
   for (int ii=0; ii<K; ++ii){
     arma::mat cc = c%c; //381 x 32
@@ -138,11 +537,10 @@ Rcpp::List doLars_c(arma::mat Y, int K, arma::vec phi, arma::vec wts, int p, int
       AS(0) = cNorm.index_max();
       res_bkp[ii] = cNorm.index_max();
     }
-    //arma::uvec AS = res_bkp.subvec(0,ii);
     arma::uvec I = sort_index(AS);
     AS0 = AS;
     AS = AS(I);
-    arma::mat w = leftMultiplyByInvXAtXA_c(p,AS,c.rows(AS),phi,wts);
+    arma::mat w = leftMultiplyByInvXAtXA_c(p, AS, c.rows(AS), phi, wts);
     arma::mat a = multiplyXtXBySparse_c(p, AS, w, phi, wts);
     arma::mat aa = a%a;
     arma::mat cumsumaa = cumsum(aa, 1);
@@ -162,30 +560,22 @@ Rcpp::List doLars_c(arma::mat Y, int K, arma::vec phi, arma::vec wts, int p, int
     delta = a2(subset)%a2(subset)-a1(subset)%a3(subset);
     arma::uvec deltaneg = find(delta<0);
     arma::uvec deltapos = find(delta>=0);
-    //if(deltaneg.size()>0){
     arma::uvec delta_neg = subset(deltaneg);
     gammaTemp.submat(delta_neg, onetemp).fill(NA_REAL);
     gammaTemp.submat(delta_neg, twotemp).fill(NA_REAL);
-    //}
-    //if (deltapos.size()>0){
     arma::uvec delta_pos = subset(deltapos);
     gammaTemp.submat(delta_pos, onetemp) = (a2(delta_pos) +
       sqrt(delta(deltapos)))/a1(delta_pos);
     gammaTemp.submat(delta_pos, twotemp) = (a2(delta_pos) -
       sqrt(delta(deltapos)))/a1(delta_pos);
-    //}
     subset = find((a1 <= epsilon) && (a2 > epsilon));
-    //if(subset.size()>0){
     arma::vec whattofill = a3(subset)/(2*a2(subset));
     for (int i=0; i<subset.size(); ++i){
       gammaTemp.row(subset[i]).fill(whattofill(i));
     }
-    //}
     double maxg = gammaTemp.max() + 1;
     subset = find((a1 <= epsilon) && (a2 <= epsilon));
-    //if(subset.size()>0){
     gammaTemp.rows(subset).fill(maxg);
-    //}
     gammaTemp.rows(AS).fill(maxg);
     gammaTemp(find(gammaTemp<=0)).fill(maxg);
     double gamma = gammaTemp.min();
@@ -217,7 +607,7 @@ Rcpp::List doLars_c(arma::mat Y, int K, arma::vec phi, arma::vec wts, int p, int
 
 // [[Rcpp::depends("RcppArmadillo")]]
 // [[Rcpp::export]]
-Rcpp::List cnv_c(arma::mat Y, arma::vec wts, int steps, int maxloop=10){
+Rcpp::List cnvJoint(arma::mat Y, arma::vec wts, int steps, int maxloop=10, bool verbose=false){
   /* Initialize phi*/
   const int p = Y.n_rows;/*number of probes*/
   const int n = Y.n_cols; /*number of samples*/
@@ -236,7 +626,6 @@ Rcpp::List cnv_c(arma::mat Y, arma::vec wts, int steps, int maxloop=10){
     phi_old = phi;
     loop += 1;
   }
-
   /*Initialize variables to save*/
   arma::vec aic_list = arma::zeros<arma::vec>(steps-1);
   arma::vec bic_list = arma::zeros<arma::vec>(steps-1);
@@ -246,9 +635,9 @@ Rcpp::List cnv_c(arma::mat Y, arma::vec wts, int steps, int maxloop=10){
   arma::mat phi_list = arma::zeros<arma::mat>(p, steps-1);
   arma::mat xi_list = arma::zeros<arma::mat>(steps-1, n);
   arma::cube theta_list = arma::zeros<arma::cube>(p, n, steps-1);
-
   /* start computing the result for each k*/
   for (int k = 1; k < (steps); ++k){
+    if(verbose==TRUE) {cout <<"looking for "<< "k = "<< k << " changepoints.. \n";}
     /* For each given k, we compute bkp, aic, etc*/
     loop=0; error=1e5;
     /* Initialize variable for next loop */
@@ -287,7 +676,6 @@ Rcpp::List cnv_c(arma::mat Y, arma::vec wts, int steps, int maxloop=10){
       for (int i=1; i<p; ++i){
         theta.row(i) = theta.row(i-1) + delta.row(i);
       }
-
       //partition
       arma::mat partition(k+1, p);
       partition.fill(NA_REAL);
@@ -313,7 +701,7 @@ Rcpp::List cnv_c(arma::mat Y, arma::vec wts, int steps, int maxloop=10){
         }
       }
 
-      //Update phi
+      /*//Update phi : this was before the phi>0 constraint
       arma::mat thetaY = theta%Y + Y.each_row()%xi;
       arma::mat thetaYcumsum = cumsum(thetaY, 1);
       arma::vec thetaYrowsum = thetaYcumsum.col(n-1);
@@ -331,6 +719,45 @@ Rcpp::List cnv_c(arma::mat Y, arma::vec wts, int steps, int maxloop=10){
         arma::vec phi_temp = phi_new(uwhere);
         double phitempsqmean = mean(phi_temp%phi_temp);
         phi_new(uwhere) = phi_temp/sqrt(phitempsqmean);
+      }
+      arma::vec diff = phi-phi_new;
+      error = accu(diff%diff) / p;
+      error = sqrt(error);
+      phi = phi_new;*/
+
+      arma::mat newtheta = theta.each_row() + xi;
+      arma::mat H = arma::zeros<arma::mat>(p,p);
+      arma::mat Thetasqcumsum = cumsum(newtheta%newtheta, 1);
+      arma::mat Ytheta = Y%newtheta;
+      arma::mat Ythetacumsum = cumsum(Ytheta, 1);
+      arma::vec C = arma::zeros<arma::vec>(p);
+      arma::mat identity = arma::eye<arma::mat>(p,p);
+      SEXP id = wrap(identity);
+      arma::mat zeros = arma::zeros<arma::vec>(p);
+      SEXP zer = wrap(zeros);
+      for (int i=0; i<p; ++i){
+        H(i,i) = Thetasqcumsum(i, n-1);
+        C(i) = Ythetacumsum(i, n-1);
+      }
+      SEXP H2 = wrap(H);
+      SEXP C2 = wrap(C);
+      Rcpp::List sphi = qprogCpp(H2, C2, id, zer);
+      phi_new = as<arma::vec>(sphi["thetahat"]);
+      for (int i=0; i<(k+1); ++i){
+        arma::rowvec ith_partition = partition.row(i);
+        arma::vec where = ith_partition(find_finite(ith_partition));
+        arma::uvec uwhere = arma::zeros<arma::uvec>(where.size());
+        for (int j = 0; j < where.size(); ++j){
+          uwhere(j) = where(j)-1;
+        }
+        arma::vec phi_temp = phi_new(uwhere);
+        if(mean(phi_temp%phi_temp)!=0){
+          double phitempsqmean = mean(phi_temp%phi_temp);
+          phi_new(uwhere) = phi_temp/sqrt(phitempsqmean);
+        }
+        if(mean(phi_temp%phi_temp)==0){
+          phi_new(uwhere) = phi_temp;
+        }
       }
       arma::vec diff = phi-phi_new;
       error = accu(diff%diff) / p;
@@ -425,136 +852,8 @@ Rcpp::List cnv_c(arma::mat Y, arma::vec wts, int steps, int maxloop=10){
     Rcpp::Named("rss") = rss_list,
     Rcpp::Named("looplist") = loop_list,
     Rcpp::Named("thetalist") = theta_list,
-    Rcpp::Named("philist") = phi_list
-  );
-}
-
-
-// [[Rcpp::depends("RcppArmadillo")]]
-// [[Rcpp::export]]
-double get_f(arma::mat Y, arma::vec sigma, arma::vec delta){
-  double f = 0;
-  int p = Y.n_rows;
-  int n = Y.n_cols;
-  arma::mat Ysq = Y%Y;
-  arma::vec sigmasq = sigma%sigma;
-  arma::vec deltasq = delta%delta;
-  for (int i=0; i < p; ++i){
-    for (int j=0; j < n; ++j){
-      f -= log(sigmasq(i) + deltasq(j))/2;
-      f -= Ysq(i,j)/(2*(sigmasq(i) + deltasq(j)));
-    }
-  }
-  return f;
-}
-
-// [[Rcpp::depends("RcppArmadillo")]]
-// [[Rcpp::export]]
-arma::vec get_g(arma::mat Y, arma::vec sigma, arma::vec delta2){
-  int p = Y.n_rows;
-  int n = Y.n_cols;
-  arma::rowvec delta = arma::zeros<arma::rowvec>(n);
-  for (int i=0; i<n; ++i){
-    delta(i) = delta2(i);
-  }
-  arma::mat Ysq = Y%Y;
-  arma::mat gsig = arma::zeros<arma::mat>(p,n);
-  arma::mat gdel = arma::zeros<arma::mat>(p,n);
-  arma::mat sigmat = arma::zeros<arma::mat>(p,n);
-  arma::mat delmat = arma::zeros<arma::mat>(p,n);
-  sigmat.each_col()+=sigma;
-  delmat.each_row()+=delta;
-  gsig = -sigmat%sigmat%sigmat + sigmat%(Ysq-delmat%delmat);
-  arma::mat denom = sigmat%sigmat + delmat%delmat;
-  denom = denom%denom;
-  gsig = gsig / denom;
-  gdel = -delmat%delmat%delmat + delmat%(Ysq-sigmat%sigmat);
-  gdel = gdel / denom;
-  arma::mat cumgsig = cumsum(gsig, 1);
-  arma::mat cumgdel = cumsum(gdel.t(), 1);
-  arma::vec g = arma::zeros<arma::vec>(n+p);
-  g.subvec(0,p-1) = cumgsig.col(n-1);
-  g.subvec(p, n+p-1) = cumgdel.col(p-1);
-  return g;
-}
-
-// [[Rcpp::depends("RcppArmadillo")]]
-// [[Rcpp::export]]
-Rcpp::List get_f_and_g(arma::vec sigma, arma::vec delta, arma::mat Y){
-  double f = 0;
-  int p = Y.n_rows;
-  int n = Y.n_cols;
-  arma::mat Ysq = Y%Y;
-  arma::vec sigmasq = sigma%sigma;
-  arma::vec deltasq = delta%delta;
-  arma::mat gs = arma::zeros<arma::mat>(p,n);
-  arma::mat gd = arma::zeros<arma::mat>(n,p);
-  for (int i=0; i < p; ++i){
-    for (int j=0; j < n; ++j){
-      f -= log(sigmasq(i) + deltasq(j))/2;
-      f-= Ysq(i,j)/(2*(sigmasq(i) + deltasq(j)));
-      gs(i,j) = -pow(sigma(i), 3) + sigma(i)*(Ysq(i,j)-deltasq(j));
-      gs(i,j) /= pow(sigmasq(i) + deltasq(j), 2);
-      gd(j,i) = -pow(delta(j),3) + delta(j)*(Ysq(i,j)-sigmasq(i));
-      gd(j,i) /= pow(sigmasq(i) + deltasq(j), 2);
-    }
-  }
-  arma::vec g = arma::zeros<arma::vec>(p+n);
-  arma::mat cumsumgs = cumsum(gs,1);
-  g.subvec(0, p-1) = cumsumgs.col(n-1);
-  arma::mat cumsumgd = cumsum(gd, 1);
-  g.subvec(p, p+n-1) = cumsumgd.col(p-1);
-
-  return Rcpp::List::create(Rcpp::Named("f") = f, Rcpp::Named("g") = g);
-}
-
-// [[Rcpp::depends("RcppArmadillo")]]
-// [[Rcpp::export]]
-double get_alpha(arma::mat Y, double alpha, double rho, double c, arma::vec sigma, arma::vec delta){
-  int p = Y.n_rows;
-  int n = Y.n_cols;
-  double f1 = get_f(Y, sigma, delta);
-  arma::vec g1 = get_g(Y, sigma, delta);
-  double g1cross = accu(g1%g1);
-  int maxit = 1000;
-  int it = 1;
-  double f2 = f1-100;
-  while(f2 > f1 - c*alpha*g1cross && it < maxit){
-    arma::vec sigma2 = sigma - alpha*g1.subvec(0,p-1);
-    arma::vec delta2 = delta - alpha*g1.subvec(p, p+n-1);
-    f2 = get_f(Y, sigma2, delta2);
-    alpha = alpha * rho;
-    it = it + 1;
-  }
-  return alpha;
-}
-
-// [[Rcpp::depends("RcppArmadillo")]]
-// [[Rcpp::export]]
-Rcpp::List grdesc(arma::mat Y, arma::vec sig, arma::vec del, int maxit){
-  int p = Y.n_rows;
-  int n = Y.n_cols;
-  arma::vec newsig = sig;
-  arma::vec newdel = del;
-  arma::vec g = arma::zeros<arma::vec>(n+p);
-  double alpha0 = 1;
-  double rho = 0.9;
-  double c = 0.1;
-  double diff = 1;
-  int it = 1;
-  double alpha = 10;
-  while(it < maxit && diff > 1e-4){
-    alpha = get_alpha(Y, alpha0, rho, c, sig, del);
-    g = get_g(Y, sig, del);
-    newsig = sig - alpha * g.subvec(0,p-1);
-    newdel = del - alpha * g.subvec(p, n+p-1);
-    diff = accu((newsig-sig)%(newsig-sig))+accu((newdel-del)%(newdel-del));
-    sig = newsig;
-    del = newdel;
-    it += 1;
-  }
-  return Rcpp::List::create(
-    Rcpp::Named("sigma") = newsig, Rcpp::Named("delta") = newdel
+    Rcpp::Named("philist") = phi_list,
+    Rcpp::Named("xilist") = xi_list
   );
 }
 
@@ -1053,8 +1352,6 @@ Rcpp::List cnv_c_old(arma::mat Y, arma::vec wts, int steps, int maxloop=10){
     Rcpp::Named("looplist") = loop_list
   );
 }
-
-
 
 
 

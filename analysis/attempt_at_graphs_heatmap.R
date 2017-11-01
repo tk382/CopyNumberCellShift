@@ -7,7 +7,7 @@ library(gridExtra)
 library(gplots)
 
 setwd('/Users/tae/Dropbox/TaeProject/CopyNumber/CopyNumberCellShift')
-Rcpp::sourceCpp('src/all_functions.cpp')
+Rcpp::sourceCpp('src/cnvJoint.cpp')
 
 #####set Y ######
 j =  22 #chromosome ID
@@ -29,21 +29,19 @@ poly_g = heatmap.2(poly, tracecol = NA, Rowv=FALSE, Colv=TRUE, dendrogram = "col
 poly_Y = poly[, poly_g$colInd]
 poly_Y = log(poly_Y)
 
-get_result = function(Y){
+get_result = function(Y, niter){
   wts = as.numeric(defaultWeights_c(nrow(Y)))
   steps = min(nrow(Y),ncol(Y))-8
-  res = cnv_c(as.matrix(Y), wts, steps, 30)
-  res$aic$theta = res$aic$theta * as.numeric(sign(res$aic$phi))
-  res$bic$theta = res$bic$theta * as.numeric(sign(res$bic$phi))
-  res_MBAmethyl = cnv_c_old(as.matrix(Y),wts,steps,30)
-  res_MBAmethyl$aic$theta = res_MBAmethyl$aic$theta * as.numeric(sign(res_MBAmethyl$aic$phi))
-  res_MBAmethyl$bic$theta = res_MBAmethyl$bic$theta * as.numeric(sign(res_MBAmethyl$bic$phi))
+  res = cnv_c(as.matrix(Y), wts, steps, niter, verbose=TRUE)
+  res_MBAmethyl = cnv_c_old(as.matrix(Y),wts,steps,niter)
+  res_MBAmethyl$aic$theta = res_MBAmethyl$aic$theta
+  res_MBAmethyl$bic$theta = res_MBAmethyl$bic$theta
   return(list(res=res, res_MBAmethyl = res_MBAmethyl))
 }
 
-encode_li = get_result(encode_Y)
-lung_li = get_result(lung_Y)
-poly_li = get_result(poly_Y)
+encode_li = get_result(encode_Y, 30)
+lung_li = get_result(lung_Y, 30)
+poly_li = get_result(poly_Y, 30)
 encode_res = encode_li$res; encode_res_MBAmethyl = encode_li$res_MBAmethyl
 lung_res = lung_li$res; lung_res_MBAmethyl = lung_li$res_MBAmethyl
 poly_res = poly_li$res; poly_res_MBAmethyl = poly_li$res_MBAmethyl
@@ -367,12 +365,11 @@ xi$lab = factor(xi$lab, levels=c('ENCODE','DOP-PCR','MALBAC'),ordered = TRUE)
 ggplot(xi, aes(x=lab, y=x)) + geom_boxplot()+
   ggtitle(expression("distribution of"~xi))
 
-
 ####observe spikes####
-for (i in 1:32){
-  plot(encode_res$aic$theta[,i], ylim = c(-5,5), type = 'l', main = i)
-  #lines(encode_res_MBAmethyl$aic$theta[,i], col = 'red')
-  lines(encode_Y[, i], col = 'red')
-  Sys.sleep(0.5)
-}
+# for (i in 1:32){
+#   plot(encode_res$aic$theta[,i], ylim = c(-5,5), type = 'l', main = i)
+#   #lines(encode_res_MBAmethyl$aic$theta[,i], col = 'red')
+#   lines(encode_Y[, i], col = 'red')
+#   Sys.sleep(0.5)
+# }
 
