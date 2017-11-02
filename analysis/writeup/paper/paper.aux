@@ -19,21 +19,31 @@
 \citation{wang2016estimating}
 \citation{bleakley2011group}
 \citation{wang2016estimating}
+\citation{liao2014coneproj}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Method}{1}{section.2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Model}{1}{subsection.2.1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Alternating Descent}{1}{subsection.2.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Constraints for identifiability}{2}{subsection.2.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Data}{2}{section.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Results}{2}{section.4}}
+\citation{wang2016estimating}
+\citation{wang2016estimating}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Constraints for identifiability}{3}{subsection.2.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Tuning}{3}{subsection.2.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces \textit  {(a) For each added change point, we compute the difference in $\Theta $ at that change point only to avoid detecting minor bumps which suggest overfitting. $\Theta $ suddenly shows a lot of change after adding 29th change point (b), (c) The 4th sample and 10th sample showing the added spike discovered from the 29th change point at the 10th probe. }\relax }}{4}{figure.caption.3}}
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{deltasum}{{1}{4}{\textit {\label {deltasum}(a) For each added change point, we compute the difference in $\Theta $ at that change point only to avoid detecting minor bumps which suggest overfitting. $\Theta $ suddenly shows a lot of change after adding 29th change point (b), (c) The 4th sample and 10th sample showing the added spike discovered from the 29th change point at the 10th probe. }\relax }{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Post Processing the Outliers}{4}{subsection.2.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Data}{4}{section.3}}
 \bibstyle{plain}
 \bibdata{cite}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces  \textbf  {Comparison of heatmap for $\Theta $ from cnvJoint and MBAmethyl} \relax }}{3}{figure.caption.3}}
-\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{thetaheatmap}{{1}{3}{\textbf {Comparison of heatmap for $\Theta $ from cnvJoint and MBAmethyl} \relax }{figure.caption.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  \textbf  {Comparison of distance matrix for $\Theta $}  The cell-cell euclidean distance in terms of copy numbers is computed for the three data sets. The clusters are determined by hierarchical clustering using euclidean distance. \relax }}{4}{figure.caption.4}}
-\newlabel{distmat_heat}{{2}{4}{\textbf {Comparison of distance matrix for $\Theta $}\\ The cell-cell euclidean distance in terms of copy numbers is computed for the three data sets. The clusters are determined by hierarchical clustering using euclidean distance. \relax }{figure.caption.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces  \textbf  {Difference in intra-cluster and cross-cluster distance}  The bar graph shows that in most cases, average intra-cluster distance is smaller for cnvJoint, suggesting more homogeneity is returned by our new approach. In contrast, when average distance is computed across different clusters, e.g. between normal cells versus tumor cells, cnvJoint returned higher average distance for most cases, suggesting clearer distinction between the cell types. \relax }}{5}{figure.caption.5}}
-\newlabel{diff_bar}{{3}{5}{\textbf {Difference in intra-cluster and cross-cluster distance}\\ The bar graph shows that in most cases, average intra-cluster distance is smaller for cnvJoint, suggesting more homogeneity is returned by our new approach. In contrast, when average distance is computed across different clusters, e.g. between normal cells versus tumor cells, cnvJoint returned higher average distance for most cases, suggesting clearer distinction between the cell types. \relax }{figure.caption.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces  \textbf  {Distribution of $\xi $} The values of $\xi $ values for the three data types. This essentially measures the effectiveness of our new method compared to MBAmethyl. Due to the nature of the data, the individual shifts have small effects on Ginkgo data sets that have been sufficiently cleaned. \relax }}{5}{figure.caption.6}}
-\newlabel{dist_xi}{{4}{5}{\textbf {Distribution of $\xi $}\\The values of $\xi $ values for the three data types. This essentially measures the effectiveness of our new method compared to MBAmethyl. Due to the nature of the data, the individual shifts have small effects on Ginkgo data sets that have been sufficiently cleaned. \relax }{figure.caption.6}{}}
+\bibcite{bleakley2011group}{1}
+\bibcite{liao2014coneproj}{2}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Results}{5}{section.4}}
+\bibcite{wang2016estimating}{3}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces \textit  { \textbf  {Comparison of heatmap for $\Theta $ from cnvJoint and MBAmethyl} }\relax }}{7}{figure.caption.4}}
+\newlabel{thetaheatmap}{{2}{7}{\textit { \textbf {Comparison of heatmap for $\Theta $ from cnvJoint and MBAmethyl} }\relax }{figure.caption.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces \textit  { \textbf  {Comparison of distance matrix for $\Theta $}. The cell-cell euclidean distance in terms of copy numbers is computed for the three data sets. The clusters are determined by hierarchical clustering using euclidean distance. }\relax }}{8}{figure.caption.5}}
+\newlabel{distmat_heat}{{3}{8}{\textit { \textbf {Comparison of distance matrix for $\Theta $}. The cell-cell euclidean distance in terms of copy numbers is computed for the three data sets. The clusters are determined by hierarchical clustering using euclidean distance. }\relax }{figure.caption.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces  \textbf  {Difference in intra-cluster and cross-cluster distance}  The bar graph shows that in most cases, average intra-cluster distance is smaller for cnvJoint, suggesting more homogeneity is returned by our new approach. In contrast, when average distance is computed across different clusters, e.g. between normal cells versus tumor cells, cnvJoint returned higher average distance for most cases, suggesting clearer distinction between the cell types. \relax }}{9}{figure.caption.6}}
+\newlabel{diff_bar}{{4}{9}{\textbf {Difference in intra-cluster and cross-cluster distance}\\ The bar graph shows that in most cases, average intra-cluster distance is smaller for cnvJoint, suggesting more homogeneity is returned by our new approach. In contrast, when average distance is computed across different clusters, e.g. between normal cells versus tumor cells, cnvJoint returned higher average distance for most cases, suggesting clearer distinction between the cell types. \relax }{figure.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces  \textbf  {Distribution of $\xi $} The values of $\xi $ values for the three data types. This essentially measures the effectiveness of our new method compared to MBAmethyl. Due to the nature of the data, the individual shifts have small effects on Ginkgo data sets that have been sufficiently cleaned. \relax }}{9}{figure.caption.7}}
+\newlabel{dist_xi}{{5}{9}{\textbf {Distribution of $\xi $}\\The values of $\xi $ values for the three data types. This essentially measures the effectiveness of our new method compared to MBAmethyl. Due to the nature of the data, the individual shifts have small effects on Ginkgo data sets that have been sufficiently cleaned. \relax }{figure.caption.7}{}}

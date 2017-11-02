@@ -409,7 +409,114 @@ Finally, we compare $\Theta$ only. $\Theta$ is supposed to represent the true va
 \label{thetaphi}
 \end{figure}
 
+\pagebreak
 
+\section{Adding positive constraint on $\phi$}
+\subsection{Model}
+\noindent We model the copy number data for probe $i$ of sample $j$ like the following. $Y_{ij}$ is the data we observe for sample $j$'s probe $i$, and $\Theta_{ij}$ is the underlying true copy number for probe $i$ in sample $j$. $\phi$ is a probe-effect while $\xi$ is a cell-specific shifts which is the main attribution of this package. 
+\begin{equation}
+Y_{ij} = (\Theta_{ij}+\xi_j)\phi_i + \epsilon_{ij}, \text{  } \epsilon_{ij} \sim N(0, \sigma^2)
+\end{equation}
+
+\noindent In order to find make recover the piece-wise constant $\Theta$, we solve the following penalized regression equation under the assumption that if there are change points in copy number, it is likely to be shared among the samples. 
+
+\begin{equation}
+min_{\phi, \xi, \Theta} \sum_{i,j} (Y_{ij} - \xi_j \phi_i -  \Theta_{ij} \phi_i)^2 + \sum_{i=1}^p \lambda \frac{\|\Theta_{i+1\cdot} - \Theta_{i\cdot}  \|}{w_i}
+\end{equation}
+
+\subsection{Alternating Descent}
+We use an alternating descent algorithm to update $\Theta$, $\phi$, and $\xi$ \cite{wang2016estimating}. 
+\begin{itemize}
+\item
+\textbf{Update $\Theta$ given ($\phi$ and $\xi$) through Group Fused Lars \cite{bleakley2011group}}\\
+If we substitute $Y_{ij}$ to $Y_{ij} - \xi_j \phi_i$ for all $i$ and $j$, the Group Fused Lars algorithm is the same with the method from Wang, Chen, \& Zhao (2016) \cite{wang2016estimating}
+$$\Theta = argmin_{\Theta} \sum_{i,j} ((Y_{ij} - \xi_j \phi_i) - \phi_i \Theta_{ij})^2 + \sum_{i=1}^{p} \lambda \frac{\|\Theta_{i+1\cdot} - \Theta_{i\cdot}  \|}{w_i} $$
+
+\item
+\textbf{Update $\xi$ given ($\phi$ and $\Theta$) by solving least squares}\\
+Similarly, we can get a closed form update for $\xi$.
+$$argmin_{\xi_j} \sum_{i,j} (Y_{ij} - \phi_i \Theta_{ij} - \phi_i \xi_j)^2$$
+$$= \frac{
+\sum_i (Y_{ij}-\phi_i \Theta_{ij})\phi_i
+}{
+\sum_i \phi_i^2
+}$$
+
+\item
+\textbf{Update $\phi$  given ($\xi$ and $\Theta$) by solving least squares}\\
+For all probe $i$, we can solve the least squares problem and get a closed-form update for $\phi_i$. 
+$$argmin_{\phi_i} \sum_{i,j}(Y_{ij} - (\Theta_{ij}+\xi_j)\phi_i)^2 \text{ such that } \phi_i \geq 0\text{ for all } i$$
+We can use quadratic programming to solve the above minimization problem. We need to construct the above in the form of
+$$min_{\phi} \frac{1}{2} \phi^T H \phi + f^T \phi \text{ such that } A\phi \leq b$$
+
+To construct $H$, first define $\tilde{\Theta}$ as
+
+$$\tilde{\Theta} = 
+\begin{bmatrix}
+\Theta_{11} + \xi_1 & \cdots & \Theta_{1n} + \xi_n\\
+\vdots & \ddots & \vdots\\
+\Theta_{p1}+\xi_1 & \cdots & \Theta_{pn} + \xi_n
+\end{bmatrix}
+$$
+\noindent and also define a $j$-specific vector $D_j$ like below.
+$$D_j = Q_j-R_j\phi = \begin{bmatrix} Y_{1j} \\ Y_{2j} \\ \vdots \\ Y_{pj} \end{bmatrix} - \begin{bmatrix}
+\tilde{\Theta}_{1j} & 0 & 0 &\cdots & 0\\
+0 & \tilde{\Theta}_{2j} & 0 & \cdots & 0\\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & ... & \tilde{\Theta}_{pj}
+\end{bmatrix}
+\begin{bmatrix}
+\phi_1\\
+\phi_2\\
+\vdots\\
+\phi_p
+\end{bmatrix}
+$$
+\end{itemize}
+\noindent Directly from the definition, e can see that
+$$D_j^T D_j = \sum_{i=1}^{p} (Y_{ij}-\tilde{\Theta}_{ij} \phi_i)^2$$
+and our optimization goal can be re-written as
+$$argmin_{\phi} \sum_{j=1}^{n} D_j^T D_j$$
+\noindent Therefore, we can construct $H$ and $f$ like the following.
+\begin{align*}
+argmin_{\phi_i} &\sum_{i,j}(Y_{ij} - (\Theta_{ij}+\xi_j)\phi_i)^2 \\
+&= argmin_{\phi} \sum_{j=1}^{n} D_j^T D_j\\
+&= argmin_{\phi} \sum_{j=1}^{n} (Q_j - R_j \phi)^T (Q_j - R_j \phi)\\
+&= argmin_{\phi} \phi^T (\sum_{j=1}^n R_j^T R_j) \phi 
+- 2(\sum_{j=1}^{n}Q_j^TR)\phi + \sum_{j=1}^{n} Q_j^T Q_j\\
+&= argmin_{\phi} 
+\phi^T \begin{bmatrix}
+\sum_{j=1}^{n} \tilde{\Theta}_{1j}^2 & \cdots & 0\\
+\vdots & \ddots & \vdots\\
+0 & \cdots & \sum_{j=1}^{n} \tilde{\Theta}_{pj}^2
+\end{bmatrix}\phi
+-2 \begin{bmatrix}
+\sum_{j=1}^{n}Y_{1j}\tilde{\Theta}_{1j} & \cdots & 0\\
+\vdots & \ddots & \vdots\\
+0 & \cdots & \sum_{j=1}^{n} Y_{pj} \tilde{\Theta}_{pj}
+\end{bmatrix}\phi\\
+&= argmin_{\phi} 
+\phi^T \begin{bmatrix}
+\sum_{j=1}^{n} \tilde{\Theta}_{1j}^2 & \cdots & 0\\
+\vdots & \ddots & \vdots\\
+0 & \cdots & \sum_{j=1}^{n} \tilde{\Theta}_{pj}^2
+\end{bmatrix}\phi
+-2 \begin{bmatrix}
+\sum_{j=1}^{n}Y_{1j}\tilde{\Theta}_{1j} \\
+\vdots \\
+\sum_{j=1}^{n} Y_{pj} \tilde{\Theta}_{pj}
+\end{bmatrix}^T \phi
+\end{align*}
+Now we have our $H$, $f$, $A$, and $b$ for the quadratic programming.
+$$H = \begin{bmatrix}
+\sum_{j=1}^{n} \tilde{\Theta}_{1j}^2 & \cdots & 0\\
+\vdots & \ddots & \vdots\\
+0 & \cdots & \sum_{j=1}^{n} \tilde{\Theta}_{pj}^2
+\end{bmatrix}\text{,  }f = \begin{bmatrix}
+\sum_{j=1}^{n}Y_{1j}\tilde{\Theta}_{1j} \\
+\vdots \\
+\sum_{j=1}^{n} Y_{pj} \tilde{\Theta}_{pj}
+\end{bmatrix}\text{,  } A = I_{p} \text{,  }b = \bf{0}$$
 
 
 

@@ -1,3 +1,20 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
+
+\bibitem{bleakley2011group}
+Kevin Bleakley and Jean-Philippe Vert.
+\newblock The group fused lasso for multiple change-point detection.
+\newblock {\em arXiv preprint arXiv:1106.4199}, 2011.
+
+\bibitem{liao2014coneproj}
+Xiyue Liao, Mary~C Meyer, et~al.
+\newblock coneproj: An r package for the primal or dual cone projections with
+  routines for constrained regression.
+\newblock {\em Journal of Statistical Software}, 61(12):1--22, 2014.
+
+\bibitem{wang2016estimating}
+Tao Wang, Mengjie Chen, and Hongyu Zhao.
+\newblock Estimating dna methylation levels by joint modeling of multiple
+  methylation profiles from microarray data.
+\newblock {\em Biometrics}, 72(2):354--363, 2016.
 
 \end{thebibliography}

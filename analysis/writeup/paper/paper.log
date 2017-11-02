@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  20 OCT 2017 14:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  2 NOV 2017 14:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -439,20 +439,20 @@ LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
 ) (./paper.aux)
 \openout1 = `paper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -519,7 +519,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box34
-Package hyperref Info: Link coloring OFF on input line 31.
+Package hyperref Info: Link coloring OFF on input line 36.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -529,9 +529,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count134
 )
-LaTeX Info: Redefining \ref on input line 31.
-LaTeX Info: Redefining \pageref on input line 31.
-LaTeX Info: Redefining \nameref on input line 31.
+LaTeX Info: Redefining \ref on input line 36.
+LaTeX Info: Redefining \pageref on input line 36.
+LaTeX Info: Redefining \nameref on input line 36.
 
 (./paper.out) (./paper.out)
 \@outlinefile=\write3
@@ -539,14 +539,14 @@ LaTeX Info: Redefining \nameref on input line 31.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Info: Redefining \[ on input line 31.
-LaTeX Info: Redefining \] on input line 31.
-LaTeX Font Info:    Try loading font information for U+msa on input line 33.
+LaTeX Info: Redefining \[ on input line 36.
+LaTeX Info: Redefining \] on input line 36.
+LaTeX Font Info:    Try loading font information for U+msa on input line 38.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 33.
+LaTeX Font Info:    Try loading font information for U+msb on input line 38.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -554,135 +554,175 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 LaTeX Warning: No \author given.
 
-
-LaTeX Warning: Citation `wang2016estimating' on page 1 undefined on input line 
-49.
-
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 52.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 57.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 52.
-
-
-LaTeX Warning: Citation `bleakley2011group' on page 1 undefined on input line 5
-2.
-
-
-LaTeX Warning: Citation `wang2016estimating' on page 1 undefined on input line 
-53.
-
-[1
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 57.
+ [1
 
 {/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 78--79
 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 90--91
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 93--94
-
- []
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
 [2]
+Underfull \hbox (badness 10000) in paragraph at lines 149--150
 
-LaTeX Warning: Reference `diffmat' on page 3 undefined on input line 97.
+ []
 
-<encode_MBAmethyl_theta_heat.pdf, id=57, 867.24pt x 578.16pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 155--156
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 157--158
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[3] <deltasum_chr21.png, id=75, 917.4275pt x 439.6425pt>
+File: deltasum_chr21.png Graphic file (type png)
+
+<use deltasum_chr21.png>
+Package pdftex.def Info: deltasum_chr21.png used on input line 164.
+(pdftex.def)             Requested size: 398.93158pt x 191.17586pt.
+ <sample410.png, id=77, 917.4275pt x 439.6425pt>
+File: sample410.png Graphic file (type png)
+
+<use sample410.png>
+Package pdftex.def Info: sample410.png used on input line 165.
+(pdftex.def)             Requested size: 398.93158pt x 191.17586pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 176--177
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[4 <./deltasum_chr21.png> <./sample410.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 185--186
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 195--196
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 198--199
+
+ []
+
+
+LaTeX Warning: Reference `diffmat' on page 5 undefined on input line 202.
+
+<encode_MBAmethyl_theta_heat.pdf, id=87, 867.24pt x 578.16pt>
 File: encode_MBAmethyl_theta_heat.pdf Graphic file (type pdf)
 
 <use encode_MBAmethyl_theta_heat.pdf>
-Package pdftex.def Info: encode_MBAmethyl_theta_heat.pdf used on input line 102
+Package pdftex.def Info: encode_MBAmethyl_theta_heat.pdf used on input line 207
 .
 (pdftex.def)             Requested size: 244.3474pt x 162.89822pt.
 
-<encode_cnvJoint_theta_heat.pdf, id=58, 867.24pt x 578.16pt>
+<encode_cnvJoint_theta_heat.pdf, id=88, 867.24pt x 578.16pt>
 File: encode_cnvJoint_theta_heat.pdf Graphic file (type pdf)
 
 <use encode_cnvJoint_theta_heat.pdf>
-Package pdftex.def Info: encode_cnvJoint_theta_heat.pdf used on input line 103.
+Package pdftex.def Info: encode_cnvJoint_theta_heat.pdf used on input line 208.
 
 (pdftex.def)             Requested size: 244.3474pt x 162.89822pt.
 
-<poly_MBAmethyl_theta_heat.pdf, id=59, 867.24pt x 578.16pt>
+<poly_MBAmethyl_theta_heat.pdf, id=89, 867.24pt x 578.16pt>
 File: poly_MBAmethyl_theta_heat.pdf Graphic file (type pdf)
 
 <use poly_MBAmethyl_theta_heat.pdf>
-Package pdftex.def Info: poly_MBAmethyl_theta_heat.pdf used on input line 104.
+Package pdftex.def Info: poly_MBAmethyl_theta_heat.pdf used on input line 209.
 (pdftex.def)             Requested size: 244.3474pt x 162.89822pt.
 
-<poly_cnvJoint_theta_heat.pdf, id=60, 867.24pt x 578.16pt>
+<poly_cnvJoint_theta_heat.pdf, id=90, 867.24pt x 578.16pt>
 File: poly_cnvJoint_theta_heat.pdf Graphic file (type pdf)
 
 <use poly_cnvJoint_theta_heat.pdf>
-Package pdftex.def Info: poly_cnvJoint_theta_heat.pdf used on input line 105.
+Package pdftex.def Info: poly_cnvJoint_theta_heat.pdf used on input line 210.
 (pdftex.def)             Requested size: 244.3474pt x 162.89822pt.
 
-<lung_MBAmethyl_theta_heat.pdf, id=61, 867.24pt x 578.16pt>
+<lung_MBAmethyl_theta_heat.pdf, id=91, 867.24pt x 578.16pt>
 File: lung_MBAmethyl_theta_heat.pdf Graphic file (type pdf)
 
 <use lung_MBAmethyl_theta_heat.pdf>
-Package pdftex.def Info: lung_MBAmethyl_theta_heat.pdf used on input line 106.
+Package pdftex.def Info: lung_MBAmethyl_theta_heat.pdf used on input line 211.
 (pdftex.def)             Requested size: 244.3474pt x 162.89822pt.
 
-<lung_cnvJoint_theta_heat.pdf, id=62, 867.24pt x 578.16pt>
+<lung_cnvJoint_theta_heat.pdf, id=92, 867.24pt x 578.16pt>
 File: lung_cnvJoint_theta_heat.pdf Graphic file (type pdf)
 
 <use lung_cnvJoint_theta_heat.pdf>
-Package pdftex.def Info: lung_cnvJoint_theta_heat.pdf used on input line 107.
+Package pdftex.def Info: lung_cnvJoint_theta_heat.pdf used on input line 212.
 (pdftex.def)             Requested size: 244.3474pt x 162.89822pt.
 
-<encode_distmat_heat.pdf, id=63, 794.97pt x 361.35pt>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<encode_distmat_heat.pdf, id=93, 794.97pt x 361.35pt>
 File: encode_distmat_heat.pdf Graphic file (type pdf)
 
 <use encode_distmat_heat.pdf>
-Package pdftex.def Info: encode_distmat_heat.pdf used on input line 115.
+Package pdftex.def Info: encode_distmat_heat.pdf used on input line 221.
 (pdftex.def)             Requested size: 398.93158pt x 181.3362pt.
 
-<poly_distmat_heat.pdf, id=64, 794.97pt x 361.35pt>
+<poly_distmat_heat.pdf, id=94, 794.97pt x 361.35pt>
 File: poly_distmat_heat.pdf Graphic file (type pdf)
 
 <use poly_distmat_heat.pdf>
-Package pdftex.def Info: poly_distmat_heat.pdf used on input line 116.
+Package pdftex.def Info: poly_distmat_heat.pdf used on input line 222.
 (pdftex.def)             Requested size: 398.93158pt x 181.3362pt.
 
-<lung_distmat_heat.pdf, id=65, 794.97pt x 361.35pt>
+<lung_distmat_heat.pdf, id=95, 794.97pt x 361.35pt>
 File: lung_distmat_heat.pdf Graphic file (type pdf)
 
 <use lung_distmat_heat.pdf>
-Package pdftex.def Info: lung_distmat_heat.pdf used on input line 117.
+Package pdftex.def Info: lung_distmat_heat.pdf used on input line 223.
 (pdftex.def)             Requested size: 398.93158pt x 181.3362pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<intraclusters_bar.pdf, id=66, 867.24pt x 433.62pt>
+<intraclusters_bar.pdf, id=96, 867.24pt x 433.62pt>
 File: intraclusters_bar.pdf Graphic file (type pdf)
 
 <use intraclusters_bar.pdf>
-Package pdftex.def Info: intraclusters_bar.pdf used on input line 126.
+Package pdftex.def Info: intraclusters_bar.pdf used on input line 232.
 (pdftex.def)             Requested size: 224.39664pt x 112.19598pt.
 
-<acrossclusters_bar.pdf, id=67, 867.24pt x 433.62pt>
+<acrossclusters_bar.pdf, id=97, 867.24pt x 433.62pt>
 File: acrossclusters_bar.pdf Graphic file (type pdf)
 
 <use acrossclusters_bar.pdf>
-Package pdftex.def Info: acrossclusters_bar.pdf used on input line 127.
+Package pdftex.def Info: acrossclusters_bar.pdf used on input line 233.
 (pdftex.def)             Requested size: 224.39664pt x 112.19598pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<dist_xi.png, id=68, 680.5425pt x 461.725pt>
+<dist_xi.png, id=98, 680.5425pt x 461.725pt>
 File: dist_xi.png Graphic file (type png)
  <use dist_xi.png>
-Package pdftex.def Info: dist_xi.png used on input line 136.
+Package pdftex.def Info: dist_xi.png used on input line 242.
 (pdftex.def)             Requested size: 398.93158pt x 270.6611pt.
 
 
@@ -690,51 +730,93 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 (./paper.bbl
 
-LaTeX Warning: Empty `thebibliography' environment on input line 3.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
-)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 148.
- [3 <./encode_MBAmethyl_theta_heat.pdf> <./encode_cnvJoint_theta_heat.pdf> <./p
-oly_MBAmethyl_theta_heat.pdf> <./poly_cnvJoint_theta_heat.pdf> <./lung_MBAmethy
-l_theta_heat.pdf> <./lung_cnvJoint_theta_heat.pdf>] [4 <./encode_distmat_heat.p
-df> <./poly_distmat_heat.pdf> <./lung_distmat_heat.pdf>] [5 <./intraclusters_ba
-r.pdf> <./acrossclusters_bar.pdf> <./dist_xi.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 148.
- (./paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 148.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 148.
-Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: DE9F02E5BD03349ED3452EA2D96DE2A2;371.
+[5])
 
+Package caption Warning: Unused \captionsetup[table] on input line 31.
+See the caption package documentation for explanation.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 252.
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[6]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[7 <./encode_MBAmethyl_theta_heat.pdf> <./encode_cnvJoint_theta_heat.pdf> <./po
+ly_MBAmethyl_theta_heat.pdf> <./poly_cnvJoint_theta_heat.pdf> <./lung_MBAmethyl
+_theta_heat.pdf> <./lung_cnvJoint_theta_heat.pdf>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[8 <./encode_distmat_heat.pdf> <./poly_distmat_heat.pdf> <./lung_distmat_heat.p
+df>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[9 <./intraclusters_bar.pdf> <./acrossclusters_bar.pdf> <./dist_xi.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 252.
+
+(./paper.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 252.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 252.
+
+
+Package rerunfilecheck Warning: File `paper.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `paper.out':
+(rerunfilecheck)             Before: DBB2A6B3A8A329C99E74049D7C19EEB2;426
+(rerunfilecheck)             After:  AA3761DC827AE355F4E051DFBA6FD568;503.
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 148.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 252.
  ) 
 Here is how much of TeX's memory you used:
- 9427 strings out of 492995
- 142481 string characters out of 6132704
- 251216 words of memory out of 5000000
- 12808 multiletter control sequences out of 15000+600000
- 14427 words of font info for 53 fonts, out of 8000000 for 9000
+ 9457 strings out of 492995
+ 142969 string characters out of 6132704
+ 264669 words of memory out of 5000000
+ 12824 multiletter control sequences out of 15000+600000
+ 15132 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,13n,43p,817b,395s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,19n,43p,817b,489s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
-/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
-usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></us
-r/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/
-local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
-cal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loca
-l/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/
-texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/tex
-live/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texl
-ive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on paper.pdf (5 pages, 500619 bytes).
+</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb
+></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
+</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></u
+sr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
+/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
+ocal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loc
+al/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local
+/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/te
+xlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/tex
+live/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texli
+ve/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on paper.pdf (9 pages, 600991 bytes).
 PDF statistics:
- 201 PDF objects out of 1000 (max. 8388607)
- 150 compressed objects within 2 object streams
- 22 named destinations out of 1000 (max. 500000)
- 117 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 249 PDF objects out of 1000 (max. 8388607)
+ 188 compressed objects within 2 object streams
+ 32 named destinations out of 1000 (max. 500000)
+ 135 words of extra memory for PDF output out of 10000 (max. 10000000)
 
